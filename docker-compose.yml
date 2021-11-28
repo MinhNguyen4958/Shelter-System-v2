@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+  server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    container_name: node
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./:/app/src"
+    command: "npx nodemon -L src/server/server.js"
