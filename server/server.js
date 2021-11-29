@@ -10,6 +10,8 @@ const mongoose = require("mongoose");
 //import the models
 const Staff = require('./model/Staff');
 const Customer = require('./model/Customer');
+const staff_position = require('./model/staff-position');
+const Room = require('./model/staff-position');
 
 const port = 8080;
 const throwError = error => {
@@ -28,6 +30,36 @@ mongoose.connect(shelterURL, {useNewUrlParser: true, useUnifiedTopology: true})
 .catch(error => throwError(error));
 
 
+//---------------- Staff methods ----------------//
+
+// creating a staff member
+app.post('/addStaff', (req, res) => {
+    let name = req.body.staffName;
+    let position = req.body.staffPosition;
+    let id = 1;
+    const newStaff = new Staff({
+        name: name,
+        position: position,
+        id: id
+    });
+    newStaff.save()
+    .then(result => {
+        res.send(JSON.stringify("Add staff complete!"));
+    })
+    .catch(err => { 
+        throwError(err);
+    });
+})
+
+app.get('/positionList', (req, res) => {
+    staff_position.find()
+    .then(result => {
+        res.send(JSON.stringify(result));
+    })
+    .catch(err => {
+        throwError(err);
+    })
+})
 
 
 
