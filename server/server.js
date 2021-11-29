@@ -14,6 +14,11 @@ const staff_position = require('./model/staff-position');
 const Room = require('./model/staff-position');
 
 const port = 8080;
+
+// Parses incoming request bodies
+app.use(bodyParser.json({extended:true}));
+
+
 const throwError = error => {
     console.error(error);
 }
@@ -34,14 +39,16 @@ mongoose.connect(shelterURL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 // creating a staff member
 app.post('/addStaff', (req, res) => {
-    let name = req.body.staffName;
-    let position = req.body.staffPosition;
-    let id = 1;
+    let name = req.body.name;
+    let position = req.body.position;
+    let id = Math.floor(Math.random() * 100) + 1; // for now I will generate a random number for ID
+
     const newStaff = new Staff({
         name: name,
         position: position,
         id: id
     });
+
     newStaff.save()
     .then(result => {
         res.send(JSON.stringify("Add staff complete!"));
@@ -50,6 +57,18 @@ app.post('/addStaff', (req, res) => {
         throwError(err);
     });
 })
+
+app.get('/employeeList', (req, res) => {
+    Staff.find()
+    .then(result => {
+        console.log(result);
+    })
+    .catch(err => {
+        throwError(err);
+    });
+});
+
+
 
 app.get('/positionList', (req, res) => {
     staff_position.find()

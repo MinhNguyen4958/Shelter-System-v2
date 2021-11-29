@@ -27,7 +27,7 @@
             name: document.getElementById("name").value,
             position: document.getElementById("position").value
           }
-          
+
           let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
           if (!format.test(data.name) && data.name != "") {
             // create a fetch request

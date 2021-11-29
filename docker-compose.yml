@@ -5,7 +5,7 @@ services:
     build:
       context: ./server
       dockerfile: ./Dockerfile
-    container_name: node
+    container_name: server
     ports:
       - "8080:8080"
     volumes:
