@@ -27,8 +27,8 @@
       .then(json => {
         for (let i = 0; i < json.length; i++) {
           let option = document.createElement('option');
-          option.text = json[i];
-          option.text = json[i];
+          option.text = json[i].position;
+          option.value = json[i].position;
           dropdown.add(option);
         }
         dropdown.defaultSelected = 0;
@@ -63,7 +63,6 @@
           
           // clear input fields
           document.getElementById("id").value = "";
-          document.getElementById("position").value = "";
         })
       
       </script>
