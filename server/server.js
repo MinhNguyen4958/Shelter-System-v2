@@ -27,7 +27,7 @@ const throwError = error => {
 const shelterURL = "mongodb+srv://admin:admin@shelter.yqqc6.mongodb.net/shelter?retryWrites=true&w=majority";
 mongoose.connect(shelterURL, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(result => {
-    console.log("connected to shelter database");
+    console.log("Connected to shelter database");
     app.listen(port, () => {
         console.log("Server listening on http://localhost:" + port);
     })
@@ -139,7 +139,7 @@ app.post('/addCustomer', (req, res) => {
         room_num: room_num,
         check_in: check_in,
         check_out: null,
-        log: log,
+        log: `\nNew Entry: ${log}`,
     });
 
     // add the new customer to customers collection
@@ -186,7 +186,6 @@ app.post('/updateCustomers', (req, res) => {
         Customer.updateOne(filter, updatenewRoom, err => {
             if (err) throwError(err);
         });
-        res.send(JSON.stringify("successfully assign the customer to the new "))
     }
 
     // add a new log to the customer
@@ -194,15 +193,15 @@ app.post('/updateCustomers', (req, res) => {
         const filter  = { id: customerID };
         Customer.findOne(filter)
         .then(result => {
-            let log = result.log + `\nnew Entry: ${newLog}`;
+            let log = result.log + `\nNew Entry: ${newLog}`;
             const addLog = { $set : {log: log } };
 
             Customer.updateOne(filter, addLog, err => {
                 if (err) throwError(err);
-                res.send(JSON.stringify("Request Complete"))
             })
         })
     }
+    res.send(JSON.stringify("Request Complete."));
 });
 
 // a post method to delete a given customer
