@@ -269,8 +269,6 @@ app.post('/customerInfo', (req, res) => {
     });
 });
 
-
-
 // a get method to send a list of customers and their IDs
 app.get('/customerList', (req, res) => {
     Customer.find()
@@ -291,10 +289,10 @@ app.get('/customerList', (req, res) => {
     });
 });
 
-
-
+// a get method to return a list of available rooms
 app.get('/roomList', (req, res) => {
-    Room.find().sort( { room_num: 1}) // 1 is ascending order
+    let filter = { id: 0 };
+    Room.find(filter).sort( { room_num: 1}) // 1 is ascending order
     .then(result => {
         let rooms = [];
         Object.keys(result).forEach(key => {
@@ -304,29 +302,6 @@ app.get('/roomList', (req, res) => {
         res.send(JSON.stringify(rooms));
     })
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.use("/", express.static("/app/src/pages"));
 app.get("/", (req, res) => {
