@@ -224,26 +224,23 @@ app.post('/deleteCustomers', (req, res) => {
 app.post('/checkoutCustomer', (req, res) => {
     let id = req.body.id;
     let filter = { id: id };
-    const check_out = { $set: { check_out: Date.now() } };
+    const check_out = { $set: { check_out: Date.now(), room_num: null } };
     let roomNum;
     Customer.findOne(filter)
     .then(result => {
         roomNum = result.room_num; // get the room number to update in rooms collection
+        Customer.updateOne(filter, check_out, err => {
+            if (err) throwError(err);
+        });
+        filter = { room_num: roomNum };
+        const deleteRoomID = { $set: { id: 0 } };
+    
+        Room.updateOne(filter, deleteRoomID, err => {
+            if (err) throwError(err);
+        });
+        res.send(JSON.stringify("Checkout complete"));
     })
     .catch(err => throwError(err));
-
-    Customer.updateOne(filter, check_out, err => {
-        if (err) throwError(err);
-    });
-
-    filter = { room_num: roomNum };
-    const deleteRoomID = { $set: { id: 0 } };
-    
-    Room.updateOne(filter, deleteRoomID, err => {
-        if (err) throwError(err);
-    });
-    
-    res.send(JSON.stringify("Checkout complete"));
 });
 
 // a post method to retrieve a customer's info
