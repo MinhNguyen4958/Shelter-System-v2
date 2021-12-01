@@ -22,7 +22,7 @@ export default function getCustomer() {
             <div className={styles.container}>
                 <form className={styles.form}>
                     <div className={styles.formItem}>
-                        <label>ID:</label>
+                        <label>ID<span class="reqField">*</span></label>
                         <input
                             type="text"
                             name="id"

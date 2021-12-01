@@ -22,7 +22,7 @@ export default function manageCustomer() {
             <div className={styles.container}>
                 <form className={styles.form}>
                     <div className={styles.formItem}>
-                        <label>ID:</label>
+                        <label>ID<span class="reqField">*</span></label>
                         <input
                             type="text"
                             name="id"
@@ -33,7 +33,7 @@ export default function manageCustomer() {
 
                     <div className={styles.formItem}>
                         <div className={styles.formItem}>
-                            <label>Log</label>
+                            <label>Log<span class="reqField">*</span></label>
                             <textarea
                                 name="log"
                                 placeholder="Post content"

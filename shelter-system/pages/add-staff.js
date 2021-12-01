@@ -40,7 +40,7 @@ export default function AddPost() {
                             </div>
                         ) : null}
                         <div className={styles.formItem}>
-                            <label>Position</label>
+                            <label>Position<span class="reqField">*</span></label>
                             <input
                                 type="text"
                                 position="position"
@@ -50,7 +50,7 @@ export default function AddPost() {
                                 />
                         </div>
                         <div className={styles.formItem}>
-                            <label>Name</label>
+                            <label >Name<span class="reqField">*</span></label>
                             <input
                                 type="text"
                                 name="name"

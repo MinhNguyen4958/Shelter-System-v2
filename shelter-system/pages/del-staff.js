@@ -39,7 +39,7 @@ export default function AddPost() {
                             </div>
                         ) : null}
                         <div className={styles.formItem}>
-                            <label>ID</label>
+                            <label>ID<span class="reqField">*</span></label>
                             <input
                                 type="text"
                                 ID="ID"

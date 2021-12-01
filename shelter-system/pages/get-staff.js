@@ -6,7 +6,6 @@ import styles from '../styles/Home.module.css';
 // A post form that will add a new post
 export default function AddPost() {
     const [ID, setID] = useState('');
-    const [position, setPosition] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
@@ -18,7 +17,7 @@ export default function AddPost() {
         setMessage('');
 
         // Check the fields
-        if (!position || !ID)
+        if (!ID)
         {
             return setError('All fields are required');
         }
@@ -46,21 +45,11 @@ export default function AddPost() {
                                 ID="ID"
                                 onChange={(e) => setID(e.target.value)}
                                 value={ID}
-                                placeholder="Input ID:"
+                                placeholder="Input ID: //TODO MAKE THIS DROPDOWN MENU"
                                 />
                         </div>
                         <div className={styles.formItem}>
-                            <label>Position<span class="reqField">*</span></label>
-                            <input
-                                type="text"
-                                position="position"
-                                onChange={(e) => setPosition(e.target.value)}
-                                value={position}
-                                placeholder="Input Position: //TODO MAKE THIS DROPDOWN MENU"
-                                />
-                        </div>
-                        <div className={styles.formItem}>
-                            <button type="submit">Change Position</button>
+                            <button type="submit">Find Staff</button>
                         </div>
                     </form>
                 </div>

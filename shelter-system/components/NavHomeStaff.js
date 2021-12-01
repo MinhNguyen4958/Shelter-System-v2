@@ -28,6 +28,11 @@ export default function Nav() {
                         <a>Manage</a>
                     </Link>
                 </li>
+                <li className={styles.item}>
+                    <Link href="/get-staff">
+                        <a>Find Staff</a>
+                    </Link>
+                </li>
             </ul>
         </nav>
     );

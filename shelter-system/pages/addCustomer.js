@@ -22,7 +22,7 @@ export default function addCustomer() {
             <div className={styles.container}>
                 <form className={styles.form}>
                     <div className={styles.formItem}>
-                        <label>Name</label>
+                        <label>Name<span class="reqField">*</span></label>
                         <input
                             type="text"
                             name="customer_name"
