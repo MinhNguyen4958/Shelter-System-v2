@@ -27,7 +27,7 @@ const throwError = error => {
 const shelterURL = "mongodb+srv://admin:admin@shelter.yqqc6.mongodb.net/shelter?retryWrites=true&w=majority";
 mongoose.connect(shelterURL, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(result => {
-    console.log("connected to shelter database");
+    console.log("Connected to shelter database");
     app.listen(port, () => {
         console.log("Server listening on http://localhost:" + port);
     })
@@ -139,7 +139,7 @@ app.post('/addCustomer', (req, res) => {
         room_num: room_num,
         check_in: check_in,
         check_out: null,
-        log: log,
+        log: `\nNew Entry: ${log}`,
     });
 
     // add the new customer to customers collection
@@ -186,7 +186,6 @@ app.post('/updateCustomers', (req, res) => {
         Customer.updateOne(filter, updatenewRoom, err => {
             if (err) throwError(err);
         });
-        res.send(JSON.stringify("successfully assign the customer to the new "))
     }
 
     // add a new log to the customer
@@ -194,15 +193,15 @@ app.post('/updateCustomers', (req, res) => {
         const filter  = { id: customerID };
         Customer.findOne(filter)
         .then(result => {
-            let log = result.log + `\nnew Entry: ${newLog}`;
+            let log = result.log + `\nNew Entry: ${newLog}`;
             const addLog = { $set : {log: log } };
 
             Customer.updateOne(filter, addLog, err => {
                 if (err) throwError(err);
-                res.send(JSON.stringify("Request Complete"))
             })
         })
     }
+    res.send(JSON.stringify("Request Complete."));
 });
 
 // a post method to delete a given customer
@@ -224,26 +223,23 @@ app.post('/deleteCustomers', (req, res) => {
 app.post('/checkoutCustomer', (req, res) => {
     let id = req.body.id;
     let filter = { id: id };
-    const check_out = { $set: { check_out: Date.now() } };
+    const check_out = { $set: { check_out: Date.now(), room_num: null } };
     let roomNum;
     Customer.findOne(filter)
     .then(result => {
         roomNum = result.room_num; // get the room number to update in rooms collection
+        Customer.updateOne(filter, check_out, err => {
+            if (err) throwError(err);
+        });
+        filter = { room_num: roomNum };
+        const deleteRoomID = { $set: { id: 0 } };
+    
+        Room.updateOne(filter, deleteRoomID, err => {
+            if (err) throwError(err);
+        });
+        res.send(JSON.stringify("Checkout complete"));
     })
     .catch(err => throwError(err));
-
-    Customer.updateOne(filter, check_out, err => {
-        if (err) throwError(err);
-    });
-
-    filter = { room_num: roomNum };
-    const deleteRoomID = { $set: { id: 0 } };
-    
-    Room.updateOne(filter, deleteRoomID, err => {
-        if (err) throwError(err);
-    });
-    
-    res.send(JSON.stringify("Checkout complete"));
 });
 
 // a post method to retrieve a customer's info
@@ -269,8 +265,6 @@ app.post('/customerInfo', (req, res) => {
     });
 });
 
-
-
 // a get method to send a list of customers and their IDs
 app.get('/customerList', (req, res) => {
     Customer.find()
@@ -291,10 +285,10 @@ app.get('/customerList', (req, res) => {
     });
 });
 
-
-
+// a get method to return a list of available rooms
 app.get('/roomList', (req, res) => {
-    Room.find().sort( { room_num: 1}) // 1 is ascending order
+    let filter = { id: 0 };
+    Room.find(filter).sort( { room_num: 1}) // 1 is ascending order
     .then(result => {
         let rooms = [];
         Object.keys(result).forEach(key => {
@@ -304,29 +298,6 @@ app.get('/roomList', (req, res) => {
         res.send(JSON.stringify(rooms));
     })
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.use("/", express.static("/app/src/pages"));
 app.get("/", (req, res) => {

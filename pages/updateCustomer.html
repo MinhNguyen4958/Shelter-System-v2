@@ -1,136 +1,198 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <title> Update Customer </title>
-    <p style="font-size: 20px;"><b>Update a Customer</b></p>
-  </head>
 
-  <body>
-    <form class="form" id="up-customer">
-      <label for="id">ID:</label>
-      <input type="text" name="id" id="id"><br>
-      <label for="log">Log:</label>
-      <input type="text" name="log" id="log"><br><br>
-      <button type="submit">Update Customer</button>
-      <select id="rooms" name="rooms"></select>
-    </form><br>
-    <form class="form" id="checkout">
-      <button type="submit">Checkout Customer</button>
-    </form><br>
-      <button onclick="location.href='customers.html'"> Back </button>
-      <button onclick="location.href='home.html'"> Home Page</button>
+<head>
+  <title> Update Customer </title>
+  <p style="font-size: 20px;"><b>Update a Customer</b></p>
+</head>
 
-      <script>
-        // Create the dropdown list
-        let dropdown = document.getElementById('rooms');
-        dropdown.length = 0;
+<body>
+  <form class="form" id="up-customer">
+    <label for="id">ID:</label>
+    <input type="text" name="id" id="id"><br>
+    <label for="log">Log:</label>
+    <input type="text" name="log" id="log"><br><br>
+    <button type="submit">Update Customer</button>
+    <select id="rooms" name="rooms"></select>
+  </form><br>
+  <form class="form" id="checkout">
+    <button type="submit">Checkout Customer</button>
+  </form><br>
+  <button onclick="location.href='customers.html'"> Back </button>
+  <button onclick="location.href='home.html'"> Home Page </button>
 
-        let defaultOption = document.createElement('option');
-        defaultOption.text = 'Choose A Room:';
+  <script>
+    // Create the dropdown list
+    let dropdown = document.getElementById('rooms');
+    dropdown.length = 0;
 
-        dropdown.add(defaultOption);
-        dropdown.selectedIndex = 0;
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Choose A Room:';
 
-        fetch("/roomList")  
-        .then(  
-          function(response) {  
-            if (response.status !== 200) {  
-              console.warn('Error. Status Code: ' + 
-                response.status);  
-              return;  
-            }
+    dropdown.add(defaultOption);
+    dropdown.selectedIndex = 0;
 
-            response.json().then(function(data) {  
-              let option;
-          
+    fetch("/roomList")
+      .then(
+        function (response) {
+          if (response.status !== 200) {
+            console.warn('Error. Status Code: ' +
+              response.status);
+            return;
+          }
+
+          response.json().then(function (data) {
+            let option;
+
             for (let i = 0; i < data.length; i++) {
-                option = document.createElement('option');
-                option.text = data[i];
-                option.value = data[i];
-                dropdown.add(option);
-            }    
-            });  
-          }  
-        )  
-        .catch(function(err) {  
-          console.error('Fetch Error -', err);  
-        });
-
-        const updateCustomer = document.getElementById("up-customer");
-        updateCustomer.addEventListener("submit", e => {
-          e.preventDefault();
-      
-          // data to be sent to server
-          var select = document.getElementById('rooms');
-          var value = select.options[select.selectedIndex].value;
-          var index = select.selectedIndex;
-
-          // set values to null if no input entered for new room or log
-          if (value == "Choose A Room:") {
-            value = null;
-           }
-          let log = document.getElementById("log").value;
-          if (log == "") {
-            log = null;
-          }
-
-          let data = {
-            customerID: document.getElementById("id").value,
-            newRoom: value,
-            log: log
-          }
-
-          let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-
-          if (!format.test(data.customerID) && !isNaN(data.customerID) && data.customerID != 0) {
-            // create a fetch request
-            fetch("/updateCustomers", {
-              method: "POST",
-              body: JSON.stringify(data),
-              headers: {"Content-type": "application/json"}
-            })
-            .then(response => response.json())
-            .then(json => console.log(json))
-            .catch(err => console.log(err));
-            // clear inputs
-            document.getElementById("id").value = "";
-            document.getElementById("log").value = "";
-            if (dropdown.selectedIndex != 0) {
-              dropdown.remove(index);
+              option = document.createElement('option');
+              option.text = data[i];
+              option.value = data[i];
+              dropdown.add(option);
             }
-            dropdown.selectedIndex = 0;
-          } else {
-            alert("Please try again");
-          }
+          });
+        }
+      )
+      .catch(function (err) {
+        console.error('Fetch Error -', err);
+      });
+
+    const updateCustomer = document.getElementById("up-customer");
+    updateCustomer.addEventListener("submit", e => {
+      e.preventDefault();
+
+      // data to be sent to server
+      var select = document.getElementById('rooms');
+      var value = select.options[select.selectedIndex].value;
+      var index = select.selectedIndex;
+
+      // set values to null if no input entered for new room or log
+      if (value == "Choose A Room:") {
+        value = null;
+      }
+      let log = document.getElementById("log").value;
+      if (log == "") {
+        log = null;
+      }
+
+      let data = {
+        customerID: document.getElementById("id").value,
+        newRoom: value,
+        log: log
+      }
+
+      let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+      if (!format.test(data.customerID) && !isNaN(data.customerID) && data.customerID != 0) {
+        // create a fetch request
+        fetch("/updateCustomers", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-type": "application/json" }
         })
+          .then(response => response.json())
+          .then(json => {
+            console.log(json)
+            fetch("/roomList")
+              .then(
+                function (response) {
+                  if (response.status !== 200) {
+                    console.warn('Error. Status Code: ' +
+                      response.status);
+                    return;
+                  }
 
-        
-        const checkout = document.getElementById("checkout");
-        checkout.addEventListener("submit", e => {
-          e.preventDefault();
-          let checkoutID = {
-            id: document.getElementById("id").value
-          }
-          let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+                  response.json().then(function (data) {
+                    let option;
 
-          if (!format.test(checkoutID.id) && !isNaN(checkoutID.id) && checkoutID.id != 0) {
-            fetch("/checkoutCustomer", {
-            method: "POST",
-            body: JSON.stringify(checkoutID),
-            headers: {"Content-type": "application/json"}            
-            })
-            .then(response => response.json())
-            .then(json => console.log(json))
-            .catch(err => console.log(err));    
-            
-            
-            document.getElementById("id").value = "";
-          } else {
-            alert("Please try again");
-          }
+                    for (let i = 0; i < 40; i++) {
+                      dropdown.remove(0);
+                    }
+
+                    dropdown.add(defaultOption);
+                    dropdown.selectedIndex = 0;
+
+                    for (let i = 0; i < data.length; i++) {
+                      option = document.createElement('option');
+                      option.text = data[i];
+                      option.value = data[i];
+                      dropdown.add(option);
+                    }
+                  });
+                }
+              )
+              .catch(function (err) {
+                console.error('Fetch Error -', err);
+              });
+          })
+          .catch(err => console.log(err));
+        // clear inputs
+        document.getElementById("id").value = "";
+        document.getElementById("log").value = "";
+      } else {
+        alert("Please try again");
+      }
+    })
+
+    const checkout = document.getElementById("checkout");
+    checkout.addEventListener("submit", e => {
+      e.preventDefault();
+      let checkoutID = {
+        id: document.getElementById("id").value
+      }
+      let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+      if (!format.test(checkoutID.id) && !isNaN(checkoutID.id) && checkoutID.id != 0) {
+        fetch("/checkoutCustomer", {
+          method: "POST",
+          body: JSON.stringify(checkoutID),
+          headers: { "Content-type": "application/json" }
         })
+          .then(response => response.json())
+          .then(json => {
+            console.log(json)
+            fetch("/roomList")
+              .then(
+                function (response) {
+                  if (response.status !== 200) {
+                    console.warn('Error. Status Code: ' +
+                      response.status);
+                    return;
+                  }
 
-      </script>
-  </body>
+                  response.json().then(function (data) {
+                    let option;
+
+                    for (let i = 0; i < 40; i++) {
+                      dropdown.remove(0);
+                    }
+
+                    dropdown.add(defaultOption);
+                    dropdown.selectedIndex = 0;
+
+                    for (let i = 0; i < data.length; i++) {
+                      option = document.createElement('option');
+                      option.text = data[i];
+                      option.value = data[i];
+                      dropdown.add(option);
+                    }
+                  });
+                }
+              )
+              .catch(function (err) {
+                console.error('Fetch Error -', err);
+              });
+          })
+          .catch(err => console.log(err));
+
+        document.getElementById("id").value = "";
+      } else {
+        alert("Please try again");
+      }
+    })
+
+  </script>
+</body>
+
 </html>
