@@ -7,7 +7,20 @@ services:
       dockerfile: ./Dockerfile
     container_name: server
     ports:
-      - "8080:8080"
+      - 8080:8080
     volumes:
-      - "./:/app/src"
-    command: "npx nodemon -L src/server/server.js"
+      - "./server/:/usr/src/app/server"
+
+    command: "npx nodemon -L server.js"
+
+  next-js:
+    build:
+      context: ./shelter-system
+      dockerfile: ./Dockerfile
+    container_name: next-js
+    depends_on:
+      - server
+    ports:
+      - 3000:3000
+    volumes:
+      - "./shelter-system/:/usr/src/app/shelter-system"

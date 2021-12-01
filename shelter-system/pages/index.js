@@ -2,11 +2,10 @@ import Head from 'next/head';
 
 // Import the forms to render them
 import Nav from '../components/Nav';
-import PostCard from '../components/PostCard';
 import styles from '../styles/Home.module.css';
 
 // Write the home page form (this can serve as the home page for the shelter)
-export default function Home({ posts }) {
+export default function Home({ isConnected }) {
   return (
     <div>
       <Head>

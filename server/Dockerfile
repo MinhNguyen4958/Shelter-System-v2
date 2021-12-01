@@ -1,8 +1,9 @@
 FROM node:16.13.0
 
-WORKDIR /app
+WORKDIR /usr/src/app/
+
+RUN npm install express body-parser nodemon mongoose
 
 EXPOSE 8080
 
-RUN npm init -y
-RUN npm install express body-parser mysql nodemon mongoose
+WORKDIR /usr/src/app/server
