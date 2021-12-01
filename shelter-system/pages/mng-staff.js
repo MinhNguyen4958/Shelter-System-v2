@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import Nav from '../components/NavHomeStaff';
 import styles from '../styles/Home.module.css';
+import hStyles from '../styles/Header.module.css';
+
 
 // A post form that will add a new post
 export default function AddPost() {
@@ -27,6 +29,10 @@ export default function AddPost() {
         return (
             <div>
                 <Nav />
+                {/* Name and Log. */}
+                <div className={hStyles.container}>
+                    <h1>Change Staff Position</h1>
+                </div>
                 <div className={styles.container}>
                     <form onSubmit={handlePost} className={styles.form}>
                         {error ? (

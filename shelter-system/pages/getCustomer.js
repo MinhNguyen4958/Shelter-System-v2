@@ -4,6 +4,8 @@ import Head from 'next/head';
 
 import Nav from '../components/customerNav';
 import styles from '../styles/Home.module.css';
+import hStyles from '../styles/Header.module.css';
+
 
 export default function getCustomer() {
     return (
@@ -15,7 +17,7 @@ export default function getCustomer() {
             <Nav />
 
             {/* ID */}
-            <div className={styles.container}>
+            <div className={hStyles.container}>
                 <h1>Get a Customer</h1>
             </div>
 

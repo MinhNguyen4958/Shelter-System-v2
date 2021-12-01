@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Nav from '../components/NavHomeStaff';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Header.module.css';
 
 // A post form that will add a new post
 export default function AddPost() {
