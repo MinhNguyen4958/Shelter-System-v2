@@ -14,17 +14,17 @@ export default function Nav() {
                     </Link>
                 </li>
                 <li className={styles.item}>
-                    <Link href="/add-post">
+                    <Link href="/add-staff">
                         <a>Add</a>
                     </Link>
                 </li>
                 <li classname={styles.item}>
-                    <Link href="/delete-post">
+                    <Link href="/del-staff">
                         <a>Delete</a>
                     </Link>
                 </li>
                 <li className={styles.item}>
-                    <Link href="/mng-post">
+                    <Link href="/mng-staff">
                         <a>Manage</a>
                     </Link>
                 </li>
