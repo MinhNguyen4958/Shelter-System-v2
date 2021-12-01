@@ -5,8 +5,8 @@ import styles from '../styles/Home.module.css';
 
 // A post form that will add a new post
 export default function AddPost() {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [position, setTitle] = useState('');
+    const [name, setContent] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
@@ -18,7 +18,7 @@ export default function AddPost() {
         setMessage('');
 
         // Check the fields
-        if (!title || !content)
+        if (!position || !name)
         {
             return setError('All fields are required');
         }
@@ -40,26 +40,27 @@ export default function AddPost() {
                             </div>
                         ) : null}
                         <div className={styles.formItem}>
-                            <label>Title</label>
+                            <label>Position</label>
                             <input
                                 type="text"
-                                name="title"
+                                name="position"
                                 onChange={(e) => setTitle(e.target.value)}
-                                value={title}
-                                placeholder="title"
+                                value={position}
+                                placeholder="Input Position: //TODO MAKE THIS DROPDOWN MENU"
                                 />
                         </div>
                         <div className={styles.formItem}>
-                            <label>Content</label>
-                            <textarea
-                                name="content"
-                                onChange={(e) => setContent(e.target.value)}
-                                value={content}
-                                placeholder="Post content"
+                            <label>Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                onChange={(e) => setTitle(e.target.value)}
+                                value={name}
+                                placeholder="Input Name:"
                                 />
                         </div>
                         <div className={styles.formItem}>
-                            <button type="submit">Add post</button>
+                            <button type="submit">Add Staff</button>
                         </div>
                     </form>
                 </div>

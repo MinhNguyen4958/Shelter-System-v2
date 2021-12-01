@@ -8,7 +8,7 @@ export default function Nav() {
     return (
         <nav className={styles.nav}>
             <ul className={styles.list}>
-            <   li className={styles.item}>
+                <li className={styles.item}>
                     <Link href="/">
                         <a>Home</a>
                     </Link>
