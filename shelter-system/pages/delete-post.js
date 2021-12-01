@@ -5,8 +5,7 @@ import styles from '../styles/Home.module.css';
 
 // A post form that will add a new post
 export default function AddPost() {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [ID, setID] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
@@ -18,7 +17,7 @@ export default function AddPost() {
         setMessage('');
 
         // Check the fields
-        if (!title || !content)
+        if (!ID)
         {
             return setError('All fields are required');
         }
@@ -28,7 +27,31 @@ export default function AddPost() {
             <div>
                 <Nav />
                 <div className={styles.container}>
-                    <h1>We are in delete-post.js</h1>
+                    <form onSubmit={handlePost} className={styles.form}>
+                        {error ? (
+                            <div className={styles.formItem}>
+                                <h3 className={styles.error}>{error}</h3>
+                            </div>
+                        ) : null}
+                        {message ? (
+                            <div className={styles.formItem}>
+                                <h3 className={styles.message}>{message}</h3>
+                            </div>
+                        ) : null}
+                        <div className={styles.formItem}>
+                            <label>ID</label>
+                            <input
+                                type="text"
+                                ID="ID"
+                                onChange={(e) => setID(e.target.value)}
+                                value={ID}
+                                placeholder="Input ID: //TODO MAKE THIS DROPDOWN MENU"
+                                />
+                        </div>
+                        <div className={styles.formItem}>
+                            <button type="submit">Delete Staff</button>
+                        </div>
+                    </form>
                 </div>
             </div>
     );

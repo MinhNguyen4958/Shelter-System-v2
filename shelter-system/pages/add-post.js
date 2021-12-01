@@ -5,8 +5,8 @@ import styles from '../styles/Home.module.css';
 
 // A post form that will add a new post
 export default function AddPost() {
-    const [position, setTitle] = useState('');
-    const [name, setContent] = useState('');
+    const [position, setPosition] = useState('');
+    const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
@@ -43,8 +43,8 @@ export default function AddPost() {
                             <label>Position</label>
                             <input
                                 type="text"
-                                name="position"
-                                onChange={(e) => setTitle(e.target.value)}
+                                position="position"
+                                onChange={(e) => setPosition(e.target.value)}
                                 value={position}
                                 placeholder="Input Position: //TODO MAKE THIS DROPDOWN MENU"
                                 />
@@ -54,7 +54,7 @@ export default function AddPost() {
                             <input
                                 type="text"
                                 name="name"
-                                onChange={(e) => setTitle(e.target.value)}
+                                onChange={(e) => setName(e.target.value)}
                                 value={name}
                                 placeholder="Input Name:"
                                 />
