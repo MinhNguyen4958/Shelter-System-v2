@@ -18,7 +18,7 @@ export default function Nav() {
                         <a>Add</a>
                     </Link>
                 </li>
-                <li classname={styles.item}>
+                <li className={styles.item}>
                     <Link href="/del-staff">
                         <a>Delete</a>
                     </Link>

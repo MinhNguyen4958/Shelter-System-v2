@@ -3,7 +3,8 @@ import { useState } from 'react';
 import Nav from '../components/NavHomeStaff';
 import styles from '../styles/Home.module.css';
 import hStyles from '../styles/Header.module.css';
-
+import Head from 'next/head';
+import Image from 'next/image';
 
 // A post form that will add a new post
 export default function AddPost() {
@@ -27,7 +28,17 @@ export default function AddPost() {
     };
 
         return (
-            <div>
+            <div >
+                <Head>
+                    <title>Add Staff</title>
+                </Head>
+                <Image 
+                    classname={styles.landingImage}
+                    src="/../public/beachshowcase.jpg"
+                    layout="fill"
+                    objectFit="cover"
+                    position="absolute"
+                    />
                 <Nav />
                 {/* Name and Log. */}
                 <div className={hStyles.container}>

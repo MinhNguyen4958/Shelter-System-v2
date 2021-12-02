@@ -12,9 +12,11 @@ export default function Nav() {
                         <a>Customers</a>
                     </Link>
                 </li>
+                <li className={styles.item}>
                     <Link href="/staff-home">
                         <a>Staff</a>
                     </Link>
+                </li>
             </ul>
         </nav>
     );

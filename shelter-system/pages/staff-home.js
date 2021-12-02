@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 import Nav from '../components/NavHomeStaff';
 import styles from '../styles/Header.module.css';
+import Image from 'next/image';
+import Head from 'next/head';
+
 
 // A post form that will add a new post
 export default function AddPost() {
@@ -26,7 +29,12 @@ export default function AddPost() {
 
         return (
             <div>
-                <Nav />
+                <Image 
+                    src="/../public/beachshowcase.jpg"
+                    layout="fill"
+                    objectFit="cover"
+                    />
+                <Nav />                
                 <div className={styles.container}>
                     <h1>List of staff members</h1>
                 </div>

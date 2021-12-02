@@ -3,6 +3,9 @@ import { useState } from 'react';
 import Nav from '../components/NavHomeStaff';
 import styles from '../styles/Home.module.css';
 import hStyles from '../styles/Header.module.css';
+import Image from 'next/image';
+import Head from 'next/head';
+
 
 
 // A post form that will add a new post
@@ -27,6 +30,11 @@ export default function AddPost() {
 
         return (
             <div>
+                <Image 
+                    src="/../public/beachshowcase.jpg"
+                    layout="fill"
+                    objectFit="cover"
+                />
                 <Nav />
                 {/* Name and Log. */}
                 <div className={hStyles.container}>

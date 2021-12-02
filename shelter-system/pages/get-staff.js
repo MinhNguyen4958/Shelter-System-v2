@@ -3,11 +3,14 @@ import { useState } from 'react';
 import Nav from '../components/NavHomeStaff';
 import styles from '../styles/Home.module.css';
 import hStyles from '../styles/Header.module.css';
+import Head from 'next/head';
+import Image from 'next/image';
+
 
 
 // A post form that will add a new post
 export default function AddPost() {
-    const [ID, setID] = useState('');
+    const [id, setID] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
@@ -19,7 +22,7 @@ export default function AddPost() {
         setMessage('');
 
         // Check the fields
-        if (!ID)
+        if (!id)
         {
             return setError('All fields are required');
         }
@@ -27,7 +30,13 @@ export default function AddPost() {
 
         return (
             <div>
+                <Image 
+                    src="/public/beachshowcase.jpg"
+                    layout="fill"
+                    objectFit="cover"
+                    />
                 <Nav />
+                
                 {/* Name and Log. */}
                 <div className={hStyles.container}>
                     <h1>Find Staff</h1>
@@ -48,9 +57,9 @@ export default function AddPost() {
                             <label>ID<span class="reqField">*</span></label>
                             <input
                                 type="text"
-                                ID="ID"
+                                id="id"
                                 onChange={(e) => setID(e.target.value)}
-                                value={ID}
+                                value={id}
                                 placeholder="Input ID: //TODO MAKE THIS DROPDOWN MENU"
                                 />
                         </div>

@@ -8,22 +8,37 @@
 
 .form {
   width: 100%;
+  display: block;
+  z-index: 1
 }
 
 .formItem label {
   display: block;
+  position: relative;
+  z-index: 1
 }
 
 .formItem input[type='text'] {
   display: block;
   width: 100%;
   padding: 10px;
+  position: relative;
+  z-index: 1
+
 }
 
 .formItem textarea {
   display: block;
   width: 100%;
   padding: 10px;
+  position: relative;
+  z-index: 1
+}
+
+.formItem button {
+  display: block;
+  position: relative;
+  z-index: 1
 }
 
 .error {
@@ -32,6 +47,10 @@
 
 .message {
   color: green;
+}
+
+.landingImage {
+  z-index: 0
 }
 /* 
 .main {
