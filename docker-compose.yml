@@ -12,6 +12,8 @@ services:
       - "./api/:/usr/src/app/api"
 
     command: "npx nodemon -L server.js"
+    # command: "node server.js"
+
 
   next-js:
     build:

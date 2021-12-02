@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { getAllCustomers } from '../services/customerService'
+import { customerList } from '../services/customerList'
 
 class App extends Component {
 
-    getAllCustomers = (e) => {
-        getAllCustomers()
+    customerList = (e) => {
+        customerList()
         .then(response => console.log(response))
         .catch(err => console.log(err))
     }
@@ -12,7 +12,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <button onClick={e => getAllCustomers()}> Hello There! </button>
+                <button onClick={e => customerList()}> Hello There! </button>
             </div>
         )
     }

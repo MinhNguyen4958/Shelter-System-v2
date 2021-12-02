@@ -5,7 +5,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require("mongoose");
-
+const cors = require('cors');
 
 //import the models
 const Staff = require('./model/Staff');
@@ -18,11 +18,11 @@ const port = 8080;
 // Parses incoming request bodies
 app.use(bodyParser.json({extended:true}));
 
+app.use(cors());
 
 const throwError = error => {
     console.error(error);
 }
-
 
 const shelterURL = "mongodb+srv://admin:admin@shelter.yqqc6.mongodb.net/shelter?retryWrites=true&w=majority";
 mongoose.connect(shelterURL, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -299,7 +299,6 @@ app.get('/roomList', (req, res) => {
     })
 });
 
-app.use(bodyParser.json());
 
 // app.use("/", express.static("/app/src/pages"));
 // app.get("/", (req, res) => {
