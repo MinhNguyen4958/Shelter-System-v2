@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import Head from 'next/head';
-
 import Nav from '../components/customerNav';
 import styles from '../styles/Home.module.css';
 import hStyles from '../styles/Header.module.css';
 import Image from 'next/image';
 
-export default function addCustomer() {
+export default function addCustomer({ rooms }) {
+    const router = useRouter();
 
     const newCustomer = async (e) => {
         e.preventDefault();
@@ -16,13 +17,25 @@ export default function addCustomer() {
             room_num: e.target.room_num.value,
             log: e.target.log.value
         }
-        const response = await fetch('/api/newCustomer', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json'}
-        })
-        const resp = await response.json();
-        console.log(resp);
+        let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      
+        // check for special characters and if ID is a number
+        if ((!format.test(data.name) && data.name != "") && data.log != "") {
+            const response = await fetch('/api/newCustomer', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            const resp = await response.json();
+            console.log(resp);
+            e.target.customer_name.value = "";
+            e.target.room_num.value = "";
+            e.target.log.value = "";
+            router.replace(router.asPath);
+        }
+        else {
+            alert("Please fill in all of the text boxes.");
+        }
     }
 
     return (
@@ -42,6 +55,11 @@ export default function addCustomer() {
             {/* Name and Log. */}
             <div className={hStyles.container}>
                 <h1>Add a New Customer</h1>
+                <ul>
+                    {rooms.map(room =>
+                        <div key={room}>{`${room}`}</div>
+                    )}
+                </ul>
             </div>
 
             <div className={styles.container}>
@@ -86,4 +104,10 @@ export default function addCustomer() {
             </div>
         </div>
     );
+}
+
+export async function getStaticProps(context) {
+    const response = await fetch('http://server:8080/roomList');
+    const rooms = await response.json();
+    return { props: { rooms } }
 }
