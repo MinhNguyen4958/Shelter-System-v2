@@ -14,7 +14,7 @@ export default function customers({ customers }) {
                 <title>Customers</title>
             </Head>
             <Image
-                classname={styles.landingImage}
+                className={styles.landingImage}
                 src="/../public/beachshowcase.jpg"
                 layout="fill"
                 objectFit="cover"
@@ -27,14 +27,13 @@ export default function customers({ customers }) {
                 <h1>Customers</h1>
                 <ul>
                     {customers.map(customer =>
-                        <h2>{`${customer.name}, ID: ${customer.id}`}</h2>
+                        <h2 key={customer.name}>{`${customer.name}, ID: ${customer.id}`}</h2>
                     )}
                 </ul>
             </div>
         </div>
     );
 }
-
 
 export async function getStaticProps(context) {
     const response = await fetch('http://server:8080/customerList');
