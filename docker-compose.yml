@@ -3,13 +3,13 @@ services:
 
   server:
     build:
-      context: ./server
+      context: ./api
       dockerfile: ./Dockerfile
     container_name: server
     ports:
       - 8080:8080
     volumes:
-      - "./server/:/usr/src/app/server"
+      - "./api/:/usr/src/app/api"
 
     command: "npx nodemon -L server.js"
 

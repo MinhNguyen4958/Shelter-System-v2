@@ -6,4 +6,4 @@ RUN npm install express body-parser nodemon mongoose
 
 EXPOSE 8080
 
-WORKDIR /usr/src/app/server
+WORKDIR /usr/src/app/api

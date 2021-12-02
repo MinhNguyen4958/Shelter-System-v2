@@ -3,6 +3,7 @@ import Head from 'next/head';
 // Import the forms to render them
 import Nav from '../components/Nav';
 import styles from '../styles/Home.module.css';
+import App from '../components/App';
 
 // Write the home page form (this can serve as the home page for the shelter)
 export default function Home({ isConnected }) {
@@ -16,6 +17,7 @@ export default function Home({ isConnected }) {
    
       <div className={styles.container}>
         <h1>Welcome to the shelter!</h1>
+        <App></App>
       </div>
     </div>
   );
