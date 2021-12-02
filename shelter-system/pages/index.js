@@ -21,7 +21,8 @@ export default function Home({ isConnected }) {
       <Nav />
    
       <div className={styles.container}>
-        <h1>Welcome to the shelter!</h1>
+        <h1>Welcome to</h1>
+        <h1>The Shellter!</h1>
       </div>
     </div>
   );
