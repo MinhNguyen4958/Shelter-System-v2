@@ -7,37 +7,29 @@ import Head from 'next/head';
 
 
 // A post form that will add a new post
-export default function AddPost() {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
-
-    const handlePost = async (e) => {
-        e.preventDefault();
-
-        // Reset error and message
-        setError('');
-        setMessage('');
-
-        // Check the fields
-        if (!title || !content)
-        {
-            return setError('All fields are required');
-        }
-    };
-
-        return (
-            <div>
-                <Image 
-                    src="/../public/beachshowcase.jpg"
-                    layout="fill"
-                    objectFit="cover"
-                    />
-                <Nav />                
-                <div className={styles.container}>
-                    <h1>List of staff members</h1>
-                </div>
+export default function staffHome({ staff }) {
+    return (
+        <div>
+            <Image
+                src="/../public/beachshowcase.jpg"
+                layout="fill"
+                objectFit="cover"
+            />
+            <Nav />
+            <div className={styles.container}>
+                <h1>Staff Members</h1>
+                <ul>
+                    {staff.map(employee =>
+                        <h2 key={employee.name}>{`${employee.name}, ID: ${employee.id}`}</h2>
+                    )}
+                </ul>
             </div>
+        </div>
     );
+}
+
+export async function getStaticProps(context) {
+    const response = await fetch('http://server:8080/employeeList');
+    const staff = await response.json();
+    return { props: { staff } }
 }
