@@ -176,7 +176,7 @@ app.post('/addCustomer', (req, res) => {
 
 // a post method to update customers to a new room
 app.post('/updateCustomers', (req, res) => {
-    let customerID = req.body.customerID;
+    let customerID = req.body.id;
     let newRoom = req.body.newRoom;
     let newLog = req.body.log;
 
