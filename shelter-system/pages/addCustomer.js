@@ -8,6 +8,25 @@ import hStyles from '../styles/Header.module.css';
 import Image from 'next/image';
 
 export default function addCustomer() {
+
+    const newCustomer = async (e) => {
+        e.preventDefault();
+        let data = {
+            name: e.target.customer_name.value,
+            room_num: e.target.room_num.value,
+            log: e.target.log.value
+        }
+        const response = await fetch('/api/newCustomer', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'}
+        })
+        const resp = await response.json();
+        console.log(resp);
+    }
+
+
+
     return (
         <div>
             <Head>
@@ -28,7 +47,7 @@ export default function addCustomer() {
             </div>
 
             <div className={styles.container}>
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={newCustomer}>
                     <div className={styles.formItem}>
                         <label>Name<span class="reqField">*</span></label>
                         <input
@@ -37,6 +56,17 @@ export default function addCustomer() {
                             placeholder="title"
                             id="customer_name"
                         />
+                    </div>
+
+                    <div className={styles.formItem}>
+                        <div className={styles.formItem}>
+                            <label>Room Number</label>
+                            <textarea
+                                name="room_num"
+                                placeholder="Room Number"
+                                id="room_num"
+                            />
+                        </div>
                     </div>
 
                     <div className={styles.formItem}>

@@ -266,7 +266,7 @@ app.post('/customerInfo', (req, res) => {
 });
 
 // a get method to send a list of customers and their IDs
-app.get('/api/customerList', (req, res) => {
+app.get('/customerList', (req, res) => {
     Customer.find()
     .then(result => {
         let nameIDs = [];
