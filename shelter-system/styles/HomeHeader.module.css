@@ -1,0 +1,12 @@
+.container {
+    max-width: 800px;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    margin: 20px auto;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size:17px;
+    color:#926239;
+    line-height:1.6;
+    position: relative
+  }
