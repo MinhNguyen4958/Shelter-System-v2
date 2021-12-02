@@ -31,7 +31,7 @@ export default function AddPost() {
         return (
             <div>
                 <Image 
-                    src="/public/beachshowcase.jpg"
+                    src="/../public/beachshowcase.jpg"
                     layout="fill"
                     objectFit="cover"
                     />
