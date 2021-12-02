@@ -10,10 +10,7 @@ services:
       - 8080:8080
     volumes:
       - "./api/:/usr/src/app/api"
-
     command: "npx nodemon -L server.js"
-    # command: "node server.js"
-
 
   next-js:
     build:
