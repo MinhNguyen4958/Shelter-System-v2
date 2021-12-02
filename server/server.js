@@ -12,6 +12,8 @@ const Staff = require('./model/Staff');
 const Customer = require('./model/Customer');
 const Position = require('./model/staff-position');
 const Room = require('./model/rooms');
+const StaffID = require('./model/StaffID');
+const CustomerID = require('./model/CustomerID');
 
 const port = 8080;
 
@@ -39,20 +41,28 @@ mongoose.connect(shelterURL, {useNewUrlParser: true, useUnifiedTopology: true})
 // creating a staff member
 app.post('/addStaff', (req, res) => {
 
-    const newStaff = new Staff({
-        name: req.body.name,
-        position: req.body.position,
- // for now I will generate a random number for ID
-        id: Math.floor(Math.random() * 998) + 1 
-    });
-
-    newStaff.save()
+    const filter = { id: "staffid" };
+    const increment = { $inc : { sequence_value: 1 } };
+    StaffID.findOneAndUpdate(filter, increment, {new: true })
     .then(result => {
-        res.send(JSON.stringify("Add staff complete!"));
-    })
-    .catch(err => { 
-        throwError(err);
-    });
+        const newStaff = new Staff({
+            name: req.body.name,
+            position: req.body.position,
+     // for now I will generate a random number for ID
+            id: result.sequence_value
+        });
+    
+        newStaff.save()
+        .then(result => {
+            res.send(JSON.stringify("Add staff complete!"));
+        })
+        .catch(err => { 
+            throwError(err);
+        });
+     })
+    .catch(err => throwError(err));
+
+
 })
 
 // a post method to update a staff's new position
@@ -129,31 +139,36 @@ app.get('/positionList', (req, res) => {
 app.post('/addCustomer', (req, res) => {
     const name = req.body.name;
     const room_num = req.body.room_num;
-    const id = Math.floor(Math.random() * 998) + 1;
     const check_in = Date.now();
     const log = req.body.log;
 
-    const newRoom = new Customer({
-        name: name,
-        id: id,
-        room_num: room_num,
-        check_in: check_in,
-        check_out: null,
-        log: `\nNew Entry: ${log}`,
-    });
+    let filter = { id: "customerid" };
+    const increment = { $inc : { sequence_value: 1 } };
+    CustomerID.findOneAndUpdate(filter, increment, { new: true })
+    .then(result => {
+        const id = result.sequence_value;
+        const newRoom = new Customer({
+            name: name,
+            id: id,
+            room_num: room_num,
+            check_in: check_in,
+            check_out: null,
+            log: `\nNew Entry: ${log}`,
+        });
 
-    // add the new customer to customers collection
-    newRoom.save()
-    .catch(err => {
-        throwError(err)
-    });
+        // add the new customer to customers collection
+        newRoom.save()
+        .catch(err => {
+            throwError(err)
+        });
 
-    // add the customer's id to rooms collection
-    const filter = { room_num: room_num }
-    const updateRoom = { $set: { id: id }};
+        // add the customer's id to rooms collection
+        filter = { room_num: room_num }
+        const updateRoom = { $set: { id: id }};
 
-    Room.updateOne(filter, updateRoom, err => {
-        if (err) throwError(err);
+        Room.updateOne(filter, updateRoom, err => {
+            if (err) throwError(err);
+        })
     })
     res.send(JSON.stringify("Request complete!"));
 });
