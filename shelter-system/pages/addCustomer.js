@@ -19,26 +19,24 @@ export default function addCustomer() {
         const response = await fetch('/api/newCustomer', {
             method: 'POST',
             body: JSON.stringify(data),
-            headers: {'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json'}
         })
         const resp = await response.json();
         console.log(resp);
     }
-
-
 
     return (
         <div>
             <Head>
                 <title>Add Customer</title>
             </Head>
-            <Image 
-                    classname={styles.landingImage}
-                    src="/../public/beachshowcase.jpg"
-                    layout="fill"
-                    objectFit="cover"
-                    position="absolute"
-                    />
+            <Image
+                className={styles.landingImage}
+                src="/../public/beachshowcase.jpg"
+                layout="fill"
+                objectFit="cover"
+                position="absolute"
+            />
             <Nav />
 
             {/* Name and Log. */}
@@ -49,7 +47,7 @@ export default function addCustomer() {
             <div className={styles.container}>
                 <form className={styles.form} onSubmit={newCustomer}>
                     <div className={styles.formItem}>
-                        <label>Name<span class="reqField">*</span></label>
+                        <label>Name<span className="reqField">*</span></label>
                         <input
                             type="text"
                             name="customer_name"
@@ -81,7 +79,7 @@ export default function addCustomer() {
                     </div>
 
                     <div className={styles.formItem}>
-                            <button type="submit">Add</button>
+                        <button type="submit">Add</button>
                     </div>
 
                 </form>
