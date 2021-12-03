@@ -49,6 +49,35 @@ export default function manageCustomer({ rooms }) {
         }
     }
 
+    const checkoutCustomer = async (e) => {
+        e.preventDefault();
+
+        let data = {
+            id: document.getElementById("id").value
+        }
+
+        let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+        if (!format.test(data.id) && !isNaN(data.id) && data.id != 0) {
+
+            const response = await fetch('/api/checkoutCustomer', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            const resp = await response.json();
+            console.log(resp);
+
+            document.getElementById("id").value = "";
+            document.getElementById("log").value = "";
+            document.getElementById("room_num").value = "";
+            router.replace(router.asPath);
+        }
+        else {
+            alert("Please enter a valid customer ID")
+        }
+    }
+
     return (
         <div>
             <Head>
@@ -90,7 +119,7 @@ export default function manageCustomer({ rooms }) {
 
                     <div className={styles.formItem}>
                         <div className={styles.formItem}>
-                            <label>Log<span className="reqField">*</span></label>
+                            <label>Log</label>
                             <textarea
                                 name="log"
                                 placeholder="Add to the customer's log"
@@ -100,7 +129,8 @@ export default function manageCustomer({ rooms }) {
                     </div>
 
                     <div className={styles.formItem}>
-                        <button type="submit">Submit</button>
+                        <button type="submit">Submit</button><span> </span>
+                        <button onClick={checkoutCustomer}>Checkout Customer</button>
                     </div>
 
                 </form>
