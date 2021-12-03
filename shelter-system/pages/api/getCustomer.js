@@ -4,7 +4,8 @@ export default async function getCustomer(req, res) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(req.body)
     })
+    const resp = await response.json();
     if (response.status == 200) {
-        res.send(response);
+        res.send(resp);
     }
 }

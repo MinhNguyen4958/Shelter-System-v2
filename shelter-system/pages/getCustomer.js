@@ -23,7 +23,13 @@ export default function getCustomer() {
                 headers: { 'Content-Type': 'application/json'}
             });
             const resp = await response.json();
-            console.log(resp);
+            if (resp.status == "failure") {
+                e.target.name.style.visibility = "hidden";
+            }
+            else {
+                e.target.name.value = `Name: ${resp.name}\nID: ${resp.id}\nRoom Number: ${resp.room_num}\nCheck In: ${resp.check_in}\nCheck Out: ${resp.check_out}\nLog: ${resp.log}`;
+                e.target.name.style.visibility = "visible";
+            }
 
             // clear the fields
             e.target.id.value = "";
@@ -46,7 +52,7 @@ export default function getCustomer() {
             </div>
 
             <div className={styles.container}>
-                <form className={styles.form} onSumbit={CustomerInfo}>
+                <form className={styles.form} onSubmit={CustomerInfo}>
                     <div className={styles.formItem}>
                         <label>ID<span class="reqField">*</span></label>
                         <input
@@ -58,7 +64,10 @@ export default function getCustomer() {
                     </div>
 
                     <div className={styles.formItem}>
-                            <button type="submit">Get</button>
+                            <button type="submit">Get</button><br/><br></br>
+                    </div>
+                    <div className={styles.formItem}>
+                        <textarea id="name" rows="9" readOnly style={{ visibility: "hidden" }} /> <br />
                     </div>
 
                 </form>

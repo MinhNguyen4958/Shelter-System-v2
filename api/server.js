@@ -89,14 +89,21 @@ app.post('/staffInfo', (req, res) => {
     const filter = { id: req.body.id };
     Staff.findOne(filter)
     .then(result => {
+        let info;
         if (result != null) {
-            let info = {
+            info = {
+                status: "success",
                 name: result.name,
                 id: result.id,
                 position: result.position
             }
-            res.send(JSON.stringify(info));
         }
+        else {
+            info = {
+                status: "failure"
+            }
+        }
+        res.send(JSON.stringify(info))
     })
     .catch(err => throwError(err));
 });
@@ -263,8 +270,10 @@ app.post('/customerInfo', (req, res) => {
     const filter = { id: id };
     Customer.findOne(filter)
     .then(result => {
+        let info;
         if (result != null) {
-            let info = {
+            info = {
+                status: "success",
                 name: result.name,
                 id: result.id,
                 room_num: result.room_num,
@@ -272,8 +281,13 @@ app.post('/customerInfo', (req, res) => {
                 check_out: result.check_out,
                 log: result.log
             }
-            res.send(JSON.stringify(info));
         }
+        else {
+            info = {
+                status: "failure"
+            }
+        }
+        res.send(JSON.stringify(info));
     })
     .catch(err => {
         throwError(err);
