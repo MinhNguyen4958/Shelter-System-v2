@@ -15,13 +15,6 @@ export default function deleteCustomer() {
             <Head>
                 <title>Delete a Customer</title>
             </Head>
-            <Image 
-                    classname={styles.landingImage}
-                    src="/../public/beachshowcase.jpg"
-                    layout="fill"
-                    objectFit="cover"
-                    position="absolute"
-                    />
             <Nav />
 
             {/* ID */}

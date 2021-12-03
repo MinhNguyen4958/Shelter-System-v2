@@ -13,11 +13,7 @@ export default function Home({ isConnected }) {
       <Head>
         <title>Home</title>
       </Head>
-      <Image 
-        src="/../public/beachshowcase.jpg"
-        layout="fill"
-        objectFit="cover"
-        />
+
       <Nav />
    
       <div className={styles.container}>

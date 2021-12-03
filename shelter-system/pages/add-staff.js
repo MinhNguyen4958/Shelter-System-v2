@@ -32,13 +32,6 @@ export default function AddPost() {
                 <Head>
                     <title>Add Staff</title>
                 </Head>
-                <Image 
-                    classname={styles.landingImage}
-                    src="/../public/beachshowcase.jpg"
-                    layout="fill"
-                    objectFit="cover"
-                    position="absolute"
-                    />
                 <Nav />
                 {/* Name and Log. */}
                 <div className={hStyles.container}>

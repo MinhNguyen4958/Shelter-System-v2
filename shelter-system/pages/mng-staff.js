@@ -37,11 +37,7 @@ export default function manageStaff({ positions }) {
 
     return (
         <div>
-            <Image
-                src="/../public/beachshowcase.jpg"
-                layout="fill"
-                objectFit="cover"
-            />
+
             <Nav />
 
             {/* Name and Log. */}

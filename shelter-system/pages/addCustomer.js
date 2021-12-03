@@ -43,13 +43,6 @@ export default function addCustomer({ rooms }) {
             <Head>
                 <title>Add Customer</title>
             </Head>
-            <Image
-                className={styles.landingImage}
-                src="/../public/beachshowcase.jpg"
-                layout="fill"
-                objectFit="cover"
-                position="absolute"
-            />
             <Nav />
 
             {/* Name and Log. */}

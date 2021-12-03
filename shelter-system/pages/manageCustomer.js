@@ -32,13 +32,7 @@ export default function manageCustomer() {
             <Head>
                 <title>Manage Customer</title>
             </Head>
-            <Image
-                className={styles.landingImage}
-                src="/../public/beachshowcase.jpg"
-                layout="fill"
-                objectFit="cover"
-                position="absolute"
-            />
+
             <Nav />
 
             {/* ID and Log */}

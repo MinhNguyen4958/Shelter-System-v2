@@ -30,11 +30,6 @@ export default function AddPost() {
 
         return (
             <div>
-                <Image 
-                    src="/../public/beachshowcase.jpg"
-                    layout="fill"
-                    objectFit="cover"
-                    />
                 <Nav />
                 
                 {/* Name and Log. */}

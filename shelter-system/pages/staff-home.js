@@ -8,11 +8,7 @@ import Head from 'next/head';
 export default function staffHome({ staff }) {
     return (
         <div>
-            <Image
-                src="/../public/beachshowcase.jpg"
-                layout="fill"
-                objectFit="cover"
-            />
+
             <Nav />
             <div className={styles.container}>
                 <h1>Staff Members</h1>

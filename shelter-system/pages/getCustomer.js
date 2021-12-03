@@ -14,13 +14,7 @@ export default function getCustomer() {
             <Head>
                 <title>Get a Customer</title>
             </Head>
-            <Image 
-                    classname={styles.landingImage}
-                    src="/../public/beachshowcase.jpg"
-                    layout="fill"
-                    objectFit="cover"
-                    position="absolute"
-                    />
+
             <Nav />
 
             {/* ID */}

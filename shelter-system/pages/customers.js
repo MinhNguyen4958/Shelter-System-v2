@@ -13,14 +13,6 @@ export default function customers({ customers }) {
             <Head>
                 <title>Customers</title>
             </Head>
-            <Image
-                className={styles.landingImage}
-                src="/../public/beachshowcase.jpg"
-                layout="fill"
-                objectFit="cover"
-                position="absolute"
-            />
-
             <Nav />
 
             <div className={styles.container}>
