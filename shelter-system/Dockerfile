@@ -3,7 +3,7 @@ FROM node:16.13.0
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm install
+RUN npm install react-bootstrap bootstrap
 
 WORKDIR /usr/src/app/shelter-system
 
