@@ -43,13 +43,6 @@ export default function addStaff({ positions }) {
             <Head>
                 <title>Add Staff</title>
             </Head>
-            <Image
-                className={styles.landingImage}
-                src="/../public/beachshowcase.jpg"
-                layout="fill"
-                objectFit="cover"
-                position="absolute"
-            />
             <Nav />
             {/* Name and Log. */}
             <div className={hStyles.container}>
