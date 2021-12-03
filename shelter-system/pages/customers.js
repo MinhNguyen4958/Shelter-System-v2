@@ -1,15 +1,17 @@
 import { useState } from 'react';
-
+import { Card } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 import Head from 'next/head';
-
 import Nav from '../components/customerNav';
 import styles from '../styles/Header.module.css';
-import Image from 'next/image';
 
 
 export default function customers({ customers }) {
+
     return (
-        <div>
+        <div className={styles.container}>
             <Head>
                 <title>Customers</title>
             </Head>
@@ -17,12 +19,21 @@ export default function customers({ customers }) {
 
             <div className={styles.container}>
                 <h1>Customers</h1>
-                <ul>
-                    {customers.map(customer =>
-                        <h2 key={customer.name}>{`${customer.name}, ID: ${customer.id}`}</h2>
-                    )}
-                </ul>
             </div>
+            
+            {customers.map(customer =>
+                <h2 key={customer.name}>
+                    <Card>
+                        <Card.Body>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>
+                                    {`${customer.name}, ID: ${customer.id}`}
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </Card.Body>
+                    </Card>
+                </h2>
+            )}
         </div>
     );
 }
