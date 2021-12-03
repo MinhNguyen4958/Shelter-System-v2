@@ -15,17 +15,29 @@ export default function AddPost() {
 
     const handlePost = async (e) => {
         e.preventDefault();
-
-        // Reset error and message
-        setError('');
-        setMessage('');
-
-        // Check the fields
-        if (!position || !name)
-        {
-            return setError('All fields are required');
+        let data = {
+            name: e.target.staff_name.value,
+            position: e.target.position.value
         }
-    };
+
+        let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if (!format.test(data.name) && data.name != "") {
+            const response = await fetch('/api/newStaff', { 
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json'}
+            })
+            const resp = await response.json();
+            console.log(resp);
+
+            // clear the fields
+            e.target.staff_name.value = "";
+            e.target.position.value = "";
+            
+        } else {
+            alert('All fields are required')
+        }
+    }
 
         return (
             <div >
@@ -33,7 +45,7 @@ export default function AddPost() {
                     <title>Add Staff</title>
                 </Head>
                 <Image 
-                    classname={styles.landingImage}
+                    className={styles.landingImage}
                     src="/../public/beachshowcase.jpg"
                     layout="fill"
                     objectFit="cover"
@@ -62,6 +74,7 @@ export default function AddPost() {
                             <input
                                 type="text"
                                 position="position"
+                                id="position"
                                 onChange={(e) => setPosition(e.target.value)}
                                 value={position}
                                 placeholder="Input Position: //TODO MAKE THIS DROPDOWN MENU"
@@ -72,6 +85,7 @@ export default function AddPost() {
                             <input
                                 type="text"
                                 name="name"
+                                id="staff_name"
                                 onChange={(e) => setName(e.target.value)}
                                 value={name}
                                 placeholder="Input Name:"

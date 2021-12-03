@@ -16,6 +16,25 @@ export default function AddPost() {
 
     const handlePost = async (e) => {
         e.preventDefault();
+        let data = {
+            id: e.target.id.value
+        }
+
+        let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if (!format.test(data.id) && !isNaN(data.id) && data.id != 0) {
+            const response = await fetch('/api/getStaff', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json'}                
+            })
+            const resp = await response.json();
+            console.log(resp);
+
+            // clear the fields
+            e.target.id.value = "";
+        } else {
+            alert("Please try again!");
+        }
 
         // Reset error and message
         setError('');

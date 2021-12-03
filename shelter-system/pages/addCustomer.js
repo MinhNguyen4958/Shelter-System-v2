@@ -16,13 +16,25 @@ export default function addCustomer() {
             room_num: e.target.room_num.value,
             log: e.target.log.value
         }
-        const response = await fetch('/api/newCustomer', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json'}
-        })
-        const resp = await response.json();
-        console.log(resp);
+
+        let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if ((!format.test(data.name) && data.name != "") && data.log != "") {
+            const response = await fetch('/api/newCustomer', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json'}
+            })
+            const resp = await response.json();
+            console.log(resp);
+
+            // clear the fields
+            e.target.customer_name.value = "";
+            e.target.room_num.value = "";
+            e.target.log.value = "";
+            
+        } else {
+            alert('All fields are required');
+        }
     }
 
     return (
