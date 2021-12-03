@@ -10,6 +10,7 @@ Josh:
 Client-Side:
 - make styling for the drop-down menus
 - implement the get staff/customers
+- figure out navigation bar bug
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
