@@ -56,7 +56,7 @@ export default function addCustomer({ rooms }) {
                         <input
                             type="text"
                             name="customer_name"
-                            placeholder="title"
+                            placeholder="New Customer's Name"
                             id="customer_name"
                         />
                     </div>
@@ -79,7 +79,7 @@ export default function addCustomer({ rooms }) {
                             <label>Log</label>
                             <textarea
                                 name="log"
-                                placeholder="Post content"
+                                placeholder="New Log Entry"
                                 id="log"
                             />
                         </div>

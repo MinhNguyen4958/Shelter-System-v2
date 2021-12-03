@@ -52,7 +52,7 @@ export default function getCustomer() {
                         <input
                             type="text"
                             name="id"
-                            placeholder="title"
+                            placeholder="Enter a valid customer ID"
                             id="id"
                         />
                     </div>

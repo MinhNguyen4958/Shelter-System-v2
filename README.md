@@ -4,8 +4,8 @@ a new version with new technologies of our existing repo: https://github.com/jor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Josh:
-- make background stay relative to position
 - format customer/staff lists
+- different fonts in text boxes
 
 Client-Side:
 - make styling for the drop-down menus

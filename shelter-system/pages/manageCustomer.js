@@ -1,30 +1,52 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import Head from 'next/head';
-
 import Nav from '../components/customerNav';
 import styles from '../styles/Home.module.css';
 import hStyles from '../styles/Header.module.css';
-import Image from 'next/image';
 
-export default function manageCustomer() {
+export default function manageCustomer({ rooms }) {
+    const router = useRouter();
 
     const updateCustomer = async (e) => {
         e.preventDefault();
+
+        let room = e.target.room_num.value;
+        let log = e.target.log.value;
+        if (room == "") {
+            room = null;
+        }
+        if (log == "") {
+            log = null;
+        }
+
         let data = {
             id: e.target.id.value,
-            log: e.target.log.value
+            newRoom: room,
+            log: log
         }
-        const response = await fetch('/api/updateCustomer', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        const resp = await response.json();
-        console.log(resp);
 
-        e.target.id.value = "";
-        e.target.log.value = "";
+        let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+        if (!format.test(data.id) && !isNaN(data.id) && data.id != 0) {
+
+            const response = await fetch('/api/updateCustomer', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            const resp = await response.json();
+            console.log(resp);
+
+            e.target.id.value = "";
+            e.target.log.value = "";
+            e.target.room_num.value = "";
+            router.replace(router.asPath);
+        }
+        else {
+            alert("Please enter a valid customer ID")
+        }
     }
 
     return (
@@ -35,7 +57,7 @@ export default function manageCustomer() {
 
             <Nav />
 
-            {/* ID and Log */}
+            {/* ID, Room, and Log */}
             <div className={hStyles.container}>
                 <h1>Manage a Customer</h1>
             </div>
@@ -50,6 +72,20 @@ export default function manageCustomer() {
                             placeholder="Enter a valid customer ID"
                             id="id"
                         />
+                    </div>
+
+                    <div className={styles.formItem}>
+                        <div className={styles.formItem}>
+                            <label>Room Number</label>
+                            <label>
+                                <select id="room_num">
+                                    <option value="" defaultValue>Update Room Number</option>
+                                    {rooms.map(room =>
+                                        <option key={room} value={room}>{`${room}`}</option>
+                                    )}
+                                </select>
+                            </label>
+                        </div>
                     </div>
 
                     <div className={styles.formItem}>
@@ -71,4 +107,10 @@ export default function manageCustomer() {
             </div>
         </div>
     );
+}
+
+export async function getStaticProps(context) {
+    const response = await fetch('http://server:8080/roomList');
+    const rooms = await response.json();
+    return { props: { rooms } }
 }

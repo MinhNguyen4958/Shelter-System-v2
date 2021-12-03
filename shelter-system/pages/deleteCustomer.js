@@ -55,7 +55,7 @@ export default function deleteCustomer() {
                         <input
                             type="text"
                             name="id"
-                            placeholder="title"
+                            placeholder="Enter a valid customer ID"
                             id="id"
                         />
                     </div>

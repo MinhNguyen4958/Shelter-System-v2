@@ -56,7 +56,7 @@ export default function manageStaff({ positions }) {
                         <label>Position<span class="reqField">*</span></label>
                         <label>
                             <select id="position">
-                                <option value="" selected>Select a Position</option>;
+                                <option value="" defaultValue>Select a Position</option>;
                                 {positions.map(position =>
                                     <option key={position.position} value={position.position}>{`${position.position}`}</option>
                                 )}
