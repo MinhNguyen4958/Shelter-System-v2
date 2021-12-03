@@ -1,9 +1,12 @@
 import { useState } from 'react';
 
 import Nav from '../components/NavHomeStaff';
-import styles from '../styles/Header.module.css';
 import Image from 'next/image';
 import Head from 'next/head';
+import { Card } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
+import styles from '../styles/Header.module.css';
+
 
 export default function staffHome({ staff }) {
     return (
@@ -13,8 +16,17 @@ export default function staffHome({ staff }) {
             <div className={styles.container}>
                 <h1>Staff Members</h1>
                 <ul>
+                
                     {staff.map(employee =>
-                        <h2 key={employee.name}>{`${employee.name}, ID: ${employee.id}`}</h2>
+                    <Card>
+                        <Card.Body>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>
+                                    <h2 key={employee.name}>{`${employee.name}, ID: ${employee.id}`}</h2>
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </Card.Body>
+                    </Card>
                     )}
                 </ul>
             </div>
