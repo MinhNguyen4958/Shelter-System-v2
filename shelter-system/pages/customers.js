@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Card } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import { ListGroup } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 import Head from 'next/head';
 import Nav from '../components/customerNav';
 import styles from '../styles/Header.module.css';
+import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 
 
 export default function customers({ customers }) {
