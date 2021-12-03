@@ -5,7 +5,6 @@ import Head from 'next/head';
 import Nav from '../components/customerNav';
 import styles from '../styles/Home.module.css';
 import hStyles from '../styles/Header.module.css';
-import Image from 'next/image';
 
 export default function addCustomer({ rooms }) {
     const router = useRouter();
@@ -18,7 +17,7 @@ export default function addCustomer({ rooms }) {
             log: e.target.log.value
         }
         let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-      
+
         // check for special characters and if ID is a number
         if ((!format.test(data.name) && data.name != "") && data.log != "") {
             const response = await fetch('/api/newCustomer', {
@@ -48,11 +47,6 @@ export default function addCustomer({ rooms }) {
             {/* Name and Log. */}
             <div className={hStyles.container}>
                 <h1>Add a New Customer</h1>
-                <ul>
-                    {rooms.map(room =>
-                        <div key={room}>{`${room}`}</div>
-                    )}
-                </ul>
             </div>
 
             <div className={styles.container}>
@@ -70,11 +64,13 @@ export default function addCustomer({ rooms }) {
                     <div className={styles.formItem}>
                         <div className={styles.formItem}>
                             <label>Room Number</label>
-                            <textarea
-                                name="room_num"
-                                placeholder="Room Number"
-                                id="room_num"
-                            />
+                            <label>
+                                <select id="room_num" selected="0">
+                                    {rooms.map(room =>
+                                        <option key={room} value={room}>{`${room}`}</option>
+                                    )}
+                                </select>
+                            </label>
                         </div>
                     </div>
 
