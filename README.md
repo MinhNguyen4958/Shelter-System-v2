@@ -5,17 +5,13 @@ a new version with new technologies of our existing repo: https://github.com/jor
 
 Josh:
 - make background stay relative to position
-- create drop downs for rooms and positions in new customer/update customer/new staff/update staff
 - format customer/staff lists
 
-Server-Side:
-- when a customer is re-checked in, add the old info to their log and then set their check-out to null so that they can be re-checkedout again
-
 Client-Side:
-- 
-
-Database:
-- 
+- make styling for the drop-down menus
+- make drop-down menus for customer stuff
+- implement the get staff/customers
+- checkout customer button
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

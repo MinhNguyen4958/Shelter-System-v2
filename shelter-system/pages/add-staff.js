@@ -7,7 +7,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 // A post form that will add a new post
-export default function AddPost() {
+export default function addStaff({ positions }) {
     const [position, setPosition] = useState('');
     const [name, setName] = useState('');
     const [error, setError] = useState('');
@@ -22,80 +22,86 @@ export default function AddPost() {
 
         let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
         if (!format.test(data.name) && data.name != "") {
-            const response = await fetch('/api/newStaff', { 
+            const response = await fetch('/api/newStaff', {
                 method: 'POST',
                 body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json'}
+                headers: { 'Content-Type': 'application/json' }
             })
             const resp = await response.json();
             console.log(resp);
 
             // clear the fields
             e.target.staff_name.value = "";
-            e.target.position.value = "";
-            
+            e.target.position.value = "Manager";
         } else {
             alert('All fields are required')
         }
     }
 
-        return (
-            <div >
-                <Head>
-                    <title>Add Staff</title>
-                </Head>
-                <Image 
-                    className={styles.landingImage}
-                    src="/../public/beachshowcase.jpg"
-                    layout="fill"
-                    objectFit="cover"
-                    position="absolute"
-                    />
-                <Nav />
-                {/* Name and Log. */}
-                <div className={hStyles.container}>
-                    <h1>Add a New Staff</h1>
-                </div>
-                
-                <div className={styles.container}>
-                    <form onSubmit={handlePost} className={styles.form}>
-                        {error ? (
-                            <div className={styles.formItem}>
-                                <h3 className={styles.error}>{error}</h3>
-                            </div>
-                        ) : null}
-                        {message ? (
-                            <div className={styles.formItem}>
-                                <h3 className={styles.message}>{message}</h3>
-                            </div>
-                        ) : null}
-                        <div className={styles.formItem}>
-                            <label>Position<span class="reqField">*</span></label>
-                            <input
-                                type="text"
-                                position="position"
-                                id="position"
-                                onChange={(e) => setPosition(e.target.value)}
-                                value={position}
-                                placeholder="Input Position: //TODO MAKE THIS DROPDOWN MENU"
-                                />
-                        </div>
-                        <div className={styles.formItem}>
-                            <label >Name<span class="reqField">*</span></label>
-                            <input
-                                type="text"
-                                name="name"
-                                id="staff_name"
-                                onChange={(e) => setName(e.target.value)}
-                                value={name}
-                                placeholder="Input Name:"
-                                />
-                        </div>
-                        <div className={styles.formItem}>
-                            <button type="submit">Add Staff</button>
-                        </div>
-                    </form>
-                </div>
+    return (
+        <div >
+            <Head>
+                <title>Add Staff</title>
+            </Head>
+            <Image
+                className={styles.landingImage}
+                src="/../public/beachshowcase.jpg"
+                layout="fill"
+                objectFit="cover"
+                position="absolute"
+            />
+            <Nav />
+            {/* Name and Log. */}
+            <div className={hStyles.container}>
+                <h1>Add a New Staff</h1>
             </div>
+
+            <div className={styles.container}>
+                <form onSubmit={handlePost} className={styles.form}>
+                    {error ? (
+                        <div className={styles.formItem}>
+                            <h3 className={styles.error}>{error}</h3>
+                        </div>
+                    ) : null}
+                    {message ? (
+                        <div className={styles.formItem}>
+                            <h3 className={styles.message}>{message}</h3>
+                        </div>
+                    ) : null}
+                    <div className={styles.formItem}>
+                        <label >Name<span class="reqField">*</span></label>
+                        <input
+                            type="text"
+                            name="name"
+                            id="staff_name"
+                            onChange={(e) => setName(e.target.value)}
+                            value={name}
+                            placeholder="Input Name:"
+                        />
+                    </div>
+
+                    <div className={styles.formItem}>
+                        <label>Position<span class="reqField">*</span></label>
+                        <label>
+                            <select id="position" selected="0">
+                                {positions.map(position =>
+                                    <option key={position.position} value={position.position}>{`${position.position}`}</option>
+                                )}
+                            </select>
+                        </label>
+                    </div>
+
+                    <div className={styles.formItem}>
+                        <button type="submit">Add Staff</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
+}
+
+export async function getStaticProps(context) {
+    const response = await fetch('http://server:8080/positionList');
+    const positions = await response.json();
+    return { props: { positions } }
 }

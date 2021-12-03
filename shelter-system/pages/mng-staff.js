@@ -18,7 +18,7 @@ export default function manageStaff({ positions }) {
         }
         let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
-        if ((!format.test(data.id) && !isNaN(data.id) && data.id != 0)) {
+        if ((!format.test(data.id) && !isNaN(data.id) && data.id != 0 && data.position != "")) {
             const response = await fetch('/api/updateStaff', {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -31,7 +31,7 @@ export default function manageStaff({ positions }) {
             router.replace(router.asPath);
         }
         else {
-            alert("Please fill in all of the text boxes.");
+            alert("Please fill in all of the inputs.");
         }
     }
 
@@ -47,11 +47,6 @@ export default function manageStaff({ positions }) {
             {/* Name and Log. */}
             <div className={hStyles.container}>
                 <h1>Change Staff Position</h1>
-                <ul>
-                    {positions.map(position =>
-                        <div key={position.position}>{`${position.position}`}</div>
-                    )}
-                </ul>
             </div>
             <div className={styles.container}>
                 <form onSubmit={updateStaff} className={styles.form}>
@@ -64,12 +59,15 @@ export default function manageStaff({ positions }) {
                         />
                     </div>
                     <div className={styles.formItem}>
-                        <label>Position<span className="reqField">*</span></label>
-                        <input
-                            type="text"
-                            id="position"
-                            placeholder="Input Position: //TODO MAKE THIS DROPDOWN MENU"
-                        />
+                        <label>Position<span class="reqField">*</span></label>
+                        <label>
+                            <select id="position">
+                                <option value="" selected>Select a Position</option>;
+                                {positions.map(position =>
+                                    <option key={position.position} value={position.position}>{`${position.position}`}</option>
+                                )}
+                            </select>
+                        </label>
                     </div>
                     <div className={styles.formItem}>
                         <button type="submit">Change Position</button>
