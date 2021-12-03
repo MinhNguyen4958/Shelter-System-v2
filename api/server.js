@@ -67,8 +67,8 @@ app.post('/addStaff', (req, res) => {
 
 // a post method to update a staff's new position
 app.post('/updateStaff', (req, res) => {
-    const filter = {id: req.body.staffID}; // filter to find the document with matching id
-    const updatePosition = {$set: { position: req.body.newPosition }}; // replace with the new position
+    const filter = {id: req.body.id}; // filter to find the document with matching id
+    const updatePosition = {$set: { position: req.body.position }}; // replace with the new position
     Staff.updateOne(filter, updatePosition, err => {
         if (err) throwError(err);
         res.send(JSON.stringify("Update Complete!"));
