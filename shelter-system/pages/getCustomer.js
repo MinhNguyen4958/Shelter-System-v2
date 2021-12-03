@@ -9,6 +9,29 @@ import Image from 'next/image';
 
 
 export default function getCustomer() {
+    const CustomerInfo = async (e) => {
+        e.preventDefault();
+        let data = {
+            id: e.target.id.value
+        }
+
+        let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if (!format.test(data.id) && !isNaN(data.id) && data.id != 0) {
+            const response = await fetch('/api/getCustomer', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json'}
+            });
+            const resp = await response.json();
+            console.log(resp);
+
+            // clear the fields
+            e.target.id.value = "";
+        } else {
+            alert("Please try again");
+        }
+    }
+
     return (
         <div>
             <Head>
@@ -23,7 +46,7 @@ export default function getCustomer() {
             </div>
 
             <div className={styles.container}>
-                <form className={styles.form}>
+                <form className={styles.form} onSumbit={CustomerInfo}>
                     <div className={styles.formItem}>
                         <label>ID<span class="reqField">*</span></label>
                         <input

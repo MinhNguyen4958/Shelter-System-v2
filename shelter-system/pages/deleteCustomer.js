@@ -10,6 +10,32 @@ import Image from 'next/image';
 
 
 export default function deleteCustomer() {
+
+    const delCustomer = async (e) => {
+        e.preventDefault();
+        let data = {
+            deleteCustomerID: e.target.id.value
+        }
+
+      let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      if (!format.test(data.deleteCustomerID) && !isNaN(data.deleteCustomerID) && data.deleteCustomerID != 0) {
+          const response = await fetch('/api/deleteCustomer', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json'}
+          });
+
+          const resp = await response.json();
+          console.log(resp);
+
+          // clear the fields
+          e.target.id.value = "";
+          
+      } else {
+          alert('Please try again');
+      }
+    }
+
     return (
         <div>
             <Head>
@@ -23,7 +49,7 @@ export default function deleteCustomer() {
             </div>
 
             <div className={styles.container}>
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit ={delCustomer}>
                     <div className={styles.formItem}>
                         <label>ID<span class="reqField">*</span></label>
                         <input
