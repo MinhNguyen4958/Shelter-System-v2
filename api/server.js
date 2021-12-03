@@ -5,29 +5,31 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require("mongoose");
-
+const cors = require('cors');
 
 //import the models
 const Staff = require('./model/Staff');
 const Customer = require('./model/Customer');
 const Position = require('./model/staff-position');
 const Room = require('./model/rooms');
+const StaffID = require('./model/StaffID');
+const CustomerID = require('./model/CustomerID');
 
 const port = 8080;
 
 // Parses incoming request bodies
 app.use(bodyParser.json({extended:true}));
 
+app.use(cors());
 
 const throwError = error => {
     console.error(error);
 }
 
-
 const shelterURL = "mongodb+srv://admin:admin@shelter.yqqc6.mongodb.net/shelter?retryWrites=true&w=majority";
 mongoose.connect(shelterURL, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(result => {
-    console.log("connected to shelter database");
+    console.log("Connected to shelter database");
     app.listen(port, () => {
         console.log("Server listening on http://localhost:" + port);
     })
@@ -39,26 +41,34 @@ mongoose.connect(shelterURL, {useNewUrlParser: true, useUnifiedTopology: true})
 // creating a staff member
 app.post('/addStaff', (req, res) => {
 
-    const newStaff = new Staff({
-        name: req.body.name,
-        position: req.body.position,
- // for now I will generate a random number for ID
-        id: Math.floor(Math.random() * 998) + 1 
-    });
-
-    newStaff.save()
+    const filter = { id: "staffid" };
+    const increment = { $inc : { sequence_value: 1 } };
+    StaffID.findOneAndUpdate(filter, increment, {new: true })
     .then(result => {
-        res.send(JSON.stringify("Add staff complete!"));
-    })
-    .catch(err => { 
-        throwError(err);
-    });
+        const newStaff = new Staff({
+            name: req.body.name,
+            position: req.body.position,
+     // for now I will generate a random number for ID
+            id: result.sequence_value
+        });
+    
+        newStaff.save()
+        .then(result => {
+            res.send(JSON.stringify("Add staff complete!"));
+        })
+        .catch(err => { 
+            throwError(err);
+        });
+     })
+    .catch(err => throwError(err));
+
+
 })
 
 // a post method to update a staff's new position
 app.post('/updateStaff', (req, res) => {
-    const filter = {id: req.body.staffID}; // filter to find the document with matching id
-    const updatePosition = {$set: { position: req.body.newPosition }}; // replace with the new position
+    const filter = {id: req.body.id}; // filter to find the document with matching id
+    const updatePosition = {$set: { position: req.body.position }}; // replace with the new position
     Staff.updateOne(filter, updatePosition, err => {
         if (err) throwError(err);
         res.send(JSON.stringify("Update Complete!"));
@@ -129,31 +139,36 @@ app.get('/positionList', (req, res) => {
 app.post('/addCustomer', (req, res) => {
     const name = req.body.name;
     const room_num = req.body.room_num;
-    const id = Math.floor(Math.random() * 998) + 1;
     const check_in = Date.now();
     const log = req.body.log;
 
-    const newRoom = new Customer({
-        name: name,
-        id: id,
-        room_num: room_num,
-        check_in: check_in,
-        check_out: null,
-        log: log,
-    });
+    let filter = { id: "customerid" };
+    const increment = { $inc : { sequence_value: 1 } };
+    CustomerID.findOneAndUpdate(filter, increment, { new: true })
+    .then(result => {
+        const id = result.sequence_value;
+        const newRoom = new Customer({
+            name: name,
+            id: id,
+            room_num: room_num,
+            check_in: check_in,
+            check_out: null,
+            log: `\nNew Entry: ${log}`,
+        });
 
-    // add the new customer to customers collection
-    newRoom.save()
-    .catch(err => {
-        throwError(err)
-    });
+        // add the new customer to customers collection
+        newRoom.save()
+        .catch(err => {
+            throwError(err)
+        });
 
-    // add the customer's id to rooms collection
-    const filter = { room_num: room_num }
-    const updateRoom = { $set: { id: id }};
+        // add the customer's id to rooms collection
+        filter = { room_num: room_num }
+        const updateRoom = { $set: { id: id }};
 
-    Room.updateOne(filter, updateRoom, err => {
-        if (err) throwError(err);
+        Room.updateOne(filter, updateRoom, err => {
+            if (err) throwError(err);
+        })
     })
     res.send(JSON.stringify("Request complete!"));
 });
@@ -161,7 +176,7 @@ app.post('/addCustomer', (req, res) => {
 
 // a post method to update customers to a new room
 app.post('/updateCustomers', (req, res) => {
-    let customerID = req.body.customerID;
+    let customerID = req.body.id;
     let newRoom = req.body.newRoom;
     let newLog = req.body.log;
 
@@ -186,7 +201,6 @@ app.post('/updateCustomers', (req, res) => {
         Customer.updateOne(filter, updatenewRoom, err => {
             if (err) throwError(err);
         });
-        res.send(JSON.stringify("successfully assign the customer to the new "))
     }
 
     // add a new log to the customer
@@ -194,15 +208,15 @@ app.post('/updateCustomers', (req, res) => {
         const filter  = { id: customerID };
         Customer.findOne(filter)
         .then(result => {
-            let log = result.log + `\nnew Entry: ${newLog}`;
+            let log = result.log + `\nNew Entry: ${newLog}`;
             const addLog = { $set : {log: log } };
 
             Customer.updateOne(filter, addLog, err => {
                 if (err) throwError(err);
-                res.send(JSON.stringify("Request Complete"))
             })
         })
     }
+    res.send(JSON.stringify("Request Complete."));
 });
 
 // a post method to delete a given customer
@@ -224,26 +238,23 @@ app.post('/deleteCustomers', (req, res) => {
 app.post('/checkoutCustomer', (req, res) => {
     let id = req.body.id;
     let filter = { id: id };
-    const check_out = { $set: { check_out: Date.now() } };
+    const check_out = { $set: { check_out: Date.now(), room_num: null } };
     let roomNum;
     Customer.findOne(filter)
     .then(result => {
         roomNum = result.room_num; // get the room number to update in rooms collection
+        Customer.updateOne(filter, check_out, err => {
+            if (err) throwError(err);
+        });
+        filter = { room_num: roomNum };
+        const deleteRoomID = { $set: { id: 0 } };
+    
+        Room.updateOne(filter, deleteRoomID, err => {
+            if (err) throwError(err);
+        });
+        res.send(JSON.stringify("Checkout complete"));
     })
     .catch(err => throwError(err));
-
-    Customer.updateOne(filter, check_out, err => {
-        if (err) throwError(err);
-    });
-
-    filter = { room_num: roomNum };
-    const deleteRoomID = { $set: { id: 0 } };
-    
-    Room.updateOne(filter, deleteRoomID, err => {
-        if (err) throwError(err);
-    });
-    
-    res.send(JSON.stringify("Checkout complete"));
 });
 
 // a post method to retrieve a customer's info
@@ -269,8 +280,6 @@ app.post('/customerInfo', (req, res) => {
     });
 });
 
-
-
 // a get method to send a list of customers and their IDs
 app.get('/customerList', (req, res) => {
     Customer.find()
@@ -291,10 +300,10 @@ app.get('/customerList', (req, res) => {
     });
 });
 
-
-
+// a get method to return a list of available rooms
 app.get('/roomList', (req, res) => {
-    Room.find().sort( { room_num: 1}) // 1 is ascending order
+    let filter = { id: 0 };
+    Room.find(filter).sort( { room_num: 1}) // 1 is ascending order
     .then(result => {
         let rooms = [];
         Object.keys(result).forEach(key => {
@@ -306,29 +315,7 @@ app.get('/roomList', (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.use("/", express.static("/app/src/pages"));
-app.get("/", (req, res) => {
-    res.redirect("/home.html");
-});
+// app.use("/", express.static("/app/src/pages"));
+// app.get("/", (req, res) => {
+//     res.redirect("/home.html");
+// });

@@ -1,0 +1,20 @@
+.nav {
+    width:  100%;
+    border-bottom: 1px solid #ccc;
+    border-bottom-color:#795230;
+    position: relative;
+    z-index: 1;
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    position: relative;
+    z-index: 1;
+}
+
+.item {
+    margin-right: 12px;
+    font-size: 20px;
+}

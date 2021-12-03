@@ -1,0 +1,24 @@
+.container {
+  max-width: 800px;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  margin: 20px auto;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size:40px;
+  color:#926239;
+  line-height:1.6;
+  position: relative
+}
+/* 
+.landingImage {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative
+} */
