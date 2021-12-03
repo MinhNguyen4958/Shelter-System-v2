@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import styles from '../styles/Header.module.css';
+import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 
 
 export default function staffHome({ staff }) {
@@ -16,17 +17,18 @@ export default function staffHome({ staff }) {
             <div className={styles.container}>
                 <h1>Staff Members</h1>
                 <ul>
-                
                     {staff.map(employee =>
-                    <Card>
-                        <Card.Body>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item>
-                                    <h2 key={employee.name}>{`${employee.name}, ID: ${employee.id}`}</h2>
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
+                        <h2 key={employee.name}>
+                            <Card>
+                                <Card.Body>
+                                    <ListGroup variant="flush">
+                                        <ListGroup.Item>
+                                            {`${employee.name}, ID: ${employee.id}`}
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </Card.Body>
+                            </Card>
+                        </h2>
                     )}
                 </ul>
             </div>
