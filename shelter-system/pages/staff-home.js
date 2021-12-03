@@ -5,8 +5,6 @@ import styles from '../styles/Header.module.css';
 import Image from 'next/image';
 import Head from 'next/head';
 
-
-// A post form that will add a new post
 export default function staffHome({ staff }) {
     return (
         <div>
