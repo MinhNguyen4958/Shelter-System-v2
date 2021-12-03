@@ -16,17 +16,27 @@ export default function AddPost() {
 
     const handlePost = async (e) => {
         e.preventDefault();
-
-        // Reset error and message
-        setError('');
-        setMessage('');
-
-        // Check the fields
-        if (!ID)
-        {
-            return setError('All fields are required');
+        let data =  {
+            deleteStaffID: e.target.staffID.value
         }
-    };
+
+        let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if (!format.test(data.deleteStaffID) && !isNaN(data.deleteStaffID) && data.deleteStaffID != 0) {
+            const response = await fetch('/api/deleteStaff', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json'}
+            });
+            const resp = await response.json();
+            console.log(resp);
+            
+            // clear the fields
+            e.target.staffID.value = "";
+        
+        } else {
+            alert('please try again');
+        }
+    }
 
         return (
             <div>
@@ -56,7 +66,7 @@ export default function AddPost() {
                             <label>ID<span class="reqField">*</span></label>
                             <input
                                 type="text"
-                                ID="ID"
+                                id="staffID"
                                 onChange={(e) => setID(e.target.value)}
                                 value={ID}
                                 placeholder="Input ID: //TODO MAKE THIS DROPDOWN MENU"
